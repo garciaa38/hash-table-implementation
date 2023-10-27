@@ -88,22 +88,36 @@ class HashTable { // get O(1), set O(1), deleteKey O(1)
   // let dataFiller = this.data;
   // //console.log(dataFiller);
   // //console.log('OLD DATA', this.data);
-  // this.data = new Array(this.capacity * 2).fill(null);
-  // console.log('NEW DATA', this.data[0]);
+  // this.data = new Array(this.capacity).fill(null);
+
   // for (let i = 0; i < dataFiller.length; i++) {
-  //   console.log(this.data[i]);
+
   //   this.data[i] = dataFiller[i];
-  //   console.log(this.data[i]);
+
   // }
   // console.log(this.data);
   // //this.capacity *= 2;
   resize() {
-    // this.capacity *= 2;
-    // this.data.length *= 2;
-    // console.log(this);
-    let doubleArr = new Array(this.capacity).fill(null);
-    this.capacity *= 2;
-    this.data = this.data.concat(doubleArr);
+    let dataFiller = this.data;
+    this.capacity = this.capacity * 2;
+    this.data = new Array(this.capacity).fill(null);
+    this.count = 0;
+    console.log(dataFiller);
+    for (let i = 0; i < dataFiller.length; i++) {
+      if (dataFiller[i].next) {
+        let curr = dataFiller[i];
+        while(curr.next) {
+          let next = curr.next;
+          dataFiller[i].next = null;
+          this.insert(dataFiller[i].key, dataFiller[i].value);
+          curr = dataFiller[i];
+        }
+      } else {
+        this.insert(dataFiller[i].key, dataFiller[i].value);
+      }
+
+      //this.data[i] = dataFiller[i];
+    }
   }
 
 
